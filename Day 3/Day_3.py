@@ -1,3 +1,4 @@
+#A function to identify palindromic numbers below a certain input value.
 def palindrome_finder(num):
   result = []
   counter = 0
