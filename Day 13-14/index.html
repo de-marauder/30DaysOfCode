@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;800&family=Sansita+Swashed:wght@900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Frontend Mentor | Interactive pricing component</title>
+
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        transition: 0.2s ease-in-out;
+      }
+      :root {
+        /*  primary colors  */
+        --Soft-Cyan: hsl(174, 77%, 80%);
+        --Strong-Cyan: hsl(174, 86%, 45%);
+        --Light-Grayish-Red: hsl(14, 92%, 95%);
+        --Light-Red: hsl(15, 100%, 70%);
+        --Pale-Blue: hsl(226, 100%, 87%);
+        /* secondary colors  */
+        --White: hsl(0, 0%, 100%);
+        --Very-Pale-Blue: hsl(230, 100%, 99%);
+        --Light-Grayish-Blue: hsl(224, 65%, 95%);
+        --Light-Grayish-Blue: hsl(223, 50%, 87%);
+        --Grayish-Blue: hsl(225, 20%, 60%);
+        --Dark-Desaturated-Blue: hsl(227, 35%, 25%);
+
+        /* progress bar */
+        --progress: 0
+        /* 145px; */
+      }
+
+      body {
+        height: 100vh;
+        width: 100vw;
+        font-family: "Manrope", sans-serif;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='449'%3E%3Cpath fill='%23F1F5FE' fill-rule='evenodd' d='M0 0h1440v449H191.5C85.737 449 0 363.263 0 257.5V0z'/%3E%3C/svg%3E");
+        background-size: 1440px 50%;
+        background-repeat: no-repeat;
+      }
+
+      .outer {
+        color: var(--Grayish-Blue);
+        width: 100%;
+        min-height: calc(100% - 3em);
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .title-div {
+        padding: 3em 0 3em;
+        margin: 3em 0 1em;
+        width: 100%;
+        text-align: center;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='146' height='145'%3E%3Cg fill='none' fill-rule='evenodd' stroke='%23CFD8EF'%3E%3Ccircle cx='63' cy='82' r='62.5'/%3E%3Ccircle cx='105' cy='41' r='40.5'/%3E%3C/g%3E%3C/svg%3E");
+        background-position: top;
+        background-size: 50% 90%;
+        background-repeat: no-repeat;
+      }
+      .title-div h2 {
+        color: var(--Dark-Desaturated-Blue);
+        font-weight: 800;
+        letter-spacing: -1px;
+      }
+      .title-div p {
+        width: 80%;
+        font-size: 0.9rem;
+        margin: 1em auto;
+      }
+      .modal-wrapper {
+        background-color: var(--White);
+        box-shadow: 0 0 2em var(--Light-Grayish-Blue);
+        width: 90%;
+        border-radius: 1em;
+        text-align: center;
+      }
+      .modal {
+        padding: 3em 1em 1em;
+        border-bottom: 1px solid var(--Light-Grayish-Blue);
+      }
+      .section-1 {
+        letter-spacing: 1px;
+      }
+      .progress-bar-wrapper {
+        border-radius: 1em;
+        width: 100%;
+        margin: 2em auto;
+      }
+      .progress-bar {
+        background-color: var(--Light-Grayish-Blue);
+        border-radius: 1em;
+        position: relative;
+      }
+      .bar {
+        height: 0.5rem;
+        width: var(--progress);
+        border-radius: 1em;
+        background-color: var(--Soft-Cyan);
+        display: flex;
+        align-items: center;
+      }
+      .progress-icon-wrapper {
+        margin: -1em;
+        padding: 1em;
+        position: absolute;
+        left: var(--progress);
+        transition: none
+      }
+      .progress-icon {
+        background-color: var(--Soft-Cyan);
+        border-radius: 50%;
+        width: fit-content;
+        padding: 0.5em ;
+        box-shadow: 0 0.5em 1.8em var(--Strong-Cyan);
+        cursor: grab;
+      }
+      .active {
+        background-color: var(--Strong-Cyan);
+      }
+      .active:hover {
+        cursor: grabbing;
+      }
+      #views {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .price {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1ch;
+        letter-spacing: 0;
+      }
+      .price strong {
+        font-size: 2.5em;
+        color: var(--Dark-Desaturated-Blue);
+      }
+      
+      #views .price {
+        display: none
+      }
+    
+      .toggle-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.8em;
+        margin: 2em 0;
+        position: relative;
+      }
+      .toggle-section p {
+        width: max-content;
+        font-weight: 800;
+      }
+      #toggle {
+        background-color: var(--Light-Grayish-Blue);
+        padding: 3px;
+        border-radius: 1em;
+        width: 3em;
+        height: calc(6px + 1em);
+        margin: 0 1em;
+        position: relative;
+        cursor: pointer;
+      }
+      #toggle div {
+        background-color: var(--White);
+        height: 1em;
+        width: 1em;
+        border-radius: 50%;
+        position: absolute;
+        right: calc(-1em + 3em - 3px);
+      }
+      #discount {
+        background: var(--Light-Grayish-Red);
+        color: var(--Light-Red);
+        border-radius: 1em;
+        padding: 5px;
+        position: relative;
+        left: 10%;
+      }
+      #discount span {
+        display: none;
+      }
+
+      #bottom-section {
+        padding: 2em;
+      }
+      .offers {
+        margin-bottom: 1em;
+        font-size: 0.8em;
+        font-weight: 800;
+      }
+
+      .offers * {
+        margin-right: 0.5em;
+      }
+
+      .submit-btn {
+        background-color: var(--Dark-Desaturated-Blue);
+        color: var(--Pale-Blue);
+        width: fit-content;
+        margin: 0 auto;
+        padding: 1em 3em;
+        border-radius: 3em;
+        cursor: pointer;
+      }
+      .submit-btn:hover {
+        color: var(--White)
+      }
+
+      @media (min-width: 450px) {
+        .outer {
+          max-width: 450px;
+          margin: 0 auto;
+        }
+        .modal {
+          padding-inline: 2em;
+        }
+        .title-div {
+        background-size: 30% 80%;
+      }
+        #views {
+          justify-content: space-between;
+        }
+        #views .price {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1ch;
+      }
+      .price {
+        display: none;
+      }
+        #views .price strong {
+        font-size: 2.5em;
+        color: var(--Dark-Desaturated-Blue);
+      }
+      .toggle-section {
+        justify-content: flex-end;
+      }
+        #bottom-section {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .offers {
+          text-align: left;
+        }
+        #discount span {
+          display: inline-block;
+        }
+        .submit-btn {
+          padding: 0.5em 2em;
+          margin: 0;
+        }
+      }
+
+      .attribution {
+        font-size: 11px;
+        text-align: center;
+        margin-top: 5em;
+      }
+      .attribution a {
+        color: hsl(228, 45%, 44%);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Simple, traffic-based pricing
+  Sign-up for our 30-day trial. No credit card required. 
+
+  Pageviews
+  $ /month
+
+  Monthly Billing
+  Yearly Billing 25% discount
+
+  Unlimited websites
+  100% data ownership
+  Email reports
+
+  Start my trial -->
+
+    <div class="outer">
+      <!-- <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="449"><path fill="#F1F5FE" fill-rule="evenodd" d="M0 0h1440v449H191.5C85.737 449 0 363.263 0 257.5V0z"/></svg> -->
+      <div class="title-div">
+        <h2><strong>Simple, traffic-based pricing</strong></h2>
+        <p>Sign-up for our 30-day trial. No credit card required.</p>
+      </div>
+      <div id="modal-wrapper" class="modal-wrapper">
+        <div class="modal">
+          <div id="views" class="section-1">
+            <strong><span id="view-no">10K</span> PAGEVIEWS</strong>
+            <div class="price"><strong >$<span>8</span>.00 </strong><span>/ month</span></div>
+          </div>
+          <div id="progress-bar-wrapper" class="progress-bar-wrapper">
+            <div id="progress-bar" class="progress-bar">
+                    <div id="bar" class="bar">
+                      <div id="progress-icon-wrapper" class="progress-icon-wrapper">
+                        <div class="progress-icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="13">
+                            <g fill="#80FFF3" fill-rule="evenodd">
+                              <path
+                                d="M16 2.558v7.884a1 1 0 001.735.679l3.639-3.943a1 1 0 000-1.356l-3.64-3.943A1 1 0 0016 2.558zM6 2.558v7.884a1 1 0 01-1.735.679L.626 7.178a1 1 0 010-1.356l3.64-3.943A1 1 0 016 2.558z"
+                              />
+                            </g>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          </div>
+          <div class="price"><strong>$<span>8</span>.00 </strong><span>/ month</span></div>
+          <div class="toggle-section">
+            <p>Monthly Billing</p>
+            <div id="toggle">
+              <div></div>
+            </div>
+            <p>Yearly Billing <span id="discount">-25%<span> discount</span></p>
+          </div>
+        </div>
+        <div id="bottom-section">
+          <div>
+            <div class="offers">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="9" height="8">
+                  <path
+                    fill="none"
+                    stroke="#10D8C4"
+                    stroke-width="2"
+                    d="M1 4.134l1.907 1.908L7.949 1"
+                  />
+                </svg>
+              </span>
+              <span>Unlimited websites</span>
+            </div>
+
+            <div class="offers">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="9" height="8">
+                  <path
+                    fill="none"
+                    stroke="#10D8C4"
+                    stroke-width="2"
+                    d="M1 4.134l1.907 1.908L7.949 1"
+                  />
+                </svg>
+              </span>
+              <span>100% data ownership</span>
+            </div>
+            <div class="offers">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="9" height="8">
+                  <path
+                    fill="none"
+                    stroke="#10D8C4"
+                    stroke-width="2"
+                    d="M1 4.134l1.907 1.908L7.949 1"
+                  />
+                </svg>
+              </span>
+              <span>Email reports</span>
+            </div>
+          </div>
+          <div class="submit-btn">Start my trial</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="attribution">
+      <p>
+        Challenge by
+        <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+          >Frontend Mentor and ECX 30 days challenge</a
+        >.
+      </p>
+      <p>Coded by <a href="#">de-marauder</a>.</p>
+    </div>
+  </body>
+
+  <script>
+    const toggle = document.getElementById('toggle')
+    let progressLeft = 0;
+    let toggleIsOn = false
+
+    const views = document.getElementById('view-no')
+    const price = document.getElementsByClassName('price')
+    const price1 = price[0].querySelector('strong').querySelector('span')
+    const price2 = price[1].querySelector('strong').querySelector('span')
+    
+    
+    toggle.addEventListener('click', ()=>{
+      toggleIsOn = !toggleIsOn
+      if (toggleIsOn) {
+        toggle.style.backgroundColor = 'var(--Soft-Cyan)'
+        toggle.children[0].style.right = '3px'
+      } else {
+        toggle.style.backgroundColor = 'var(--Light-Grayish-Blue)'
+        toggle.children[0].style.right = 'calc(-1em + 3em - 3px)'
+      }
+      discount()
+    })
+
+    const progressBar = document.getElementById('progress-bar')
+    const progressBarWidth = Number(getComputedStyle(progressBar).getPropertyValue('width').slice(0,-2))
+    const progress = document.getElementById('bar')
+    const progressBarWrapper = document.getElementById('progress-bar-wrapper')
+    const progressIcon = document.getElementById('progress-icon-wrapper');
+    const progressIconDiv = document.querySelector('.progress-icon');
+
+    const rect = progressIcon.getBoundingClientRect()
+
+    const root = document.querySelector(':root')
+
+    progressIconDiv.addEventListener('mouseenter', ()=>{
+      progressIconDiv.classList.add('active')
+    })
+    progressIconDiv.addEventListener('mouseleave', ()=>{
+      progressIconDiv.classList.remove('active')
+    })
+
+    progressBarWrapper.addEventListener('mousedown', (e)=>{
+      progressBarWrapper.style.cursor = 'grabbing' ;
+      moveProgressIcon(e)
+    })
+    progressIcon.addEventListener('mousedown', (e)=>{
+      progressIcon.style.cursor = 'grabbing' ;
+
+      progressIcon.addEventListener('mousemove', moveProgressIcon)
+    })
+
+    progressBarWrapper.addEventListener('mouseup', ()=>{
+      progressBarWrapper.style.cursor = 'grab'
+      progressBarWrapper.removeEventListener('mousemove', moveProgressIcon)
+    })
+    progressIcon.addEventListener('mouseup', ()=>{
+      progressIcon.style.cursor = 'grab'
+      progressIcon.removeEventListener('mousemove', moveProgressIcon)
+    })
+
+    progressBarWrapper.addEventListener('mouseleave', ()=>{
+      progressBarWrapper.style.cursor = 'grab'
+      progressBarWrapper.removeEventListener('mousemove', moveProgressIcon)
+    })
+    progressIcon.addEventListener('mouseleave', ()=>{
+      progressIcon.style.cursor = 'grab'
+      progressIcon.removeEventListener('mousemove', moveProgressIcon)
+    })
+    const moveProgressIcon = (e) => {
+      
+      progressLeft = Number(e.pageX) - rect.left
+
+      if (!(e.pageX > (progressBarWidth + rect.left)) && !(e.pageX < (rect.left + 25))) {
+        
+        root.style.setProperty('--progress', `calc(${(Number(e.pageX)) - rect.left}px - 2em)` )
+      
+        discount()
+      }
+    }
+    const discount = () => {
+      const unit = progressBarWidth / 5
+      if (progressLeft >= 0 && progressLeft < unit ){
+        views.textContent = '10K'
+        price1.textContent = toggleIsOn ? Math.floor(8*0.75) : 8
+        price2.textContent = toggleIsOn ? Math.floor(8*0.75) : 8
+      }
+      if (progressLeft >= unit && progressLeft < (2*unit) ){
+        views.textContent = '50K'
+        price1.textContent = toggleIsOn ? Math.floor(12*0.75) : 12
+        price2.textContent = toggleIsOn ? Math.floor(12*0.75) : 12
+      }
+      if (progressLeft >= 2*unit && progressLeft < (3*unit) ){
+        views.textContent = '100K'
+        price1.textContent = toggleIsOn ? Math.floor(16*0.75) : 16
+        price2.textContent = toggleIsOn ? Math.floor(16*0.75) : 16
+      }
+      if (progressLeft >= 3*unit && progressLeft < (4*unit) ){
+        views.textContent = '500K'
+        price1.textContent = toggleIsOn ? Math.floor(24*0.75) : 24
+        price2.textContent = toggleIsOn ? Math.floor(24*0.75) : 24
+      }
+      if (progressLeft >= 4*unit ){
+        views.textContent = '1M'
+        price1.textContent = toggleIsOn ? Math.floor(36*0.75) : 36
+        price2.textContent = toggleIsOn ? Math.floor(36*0.75) : 36
+      }
+    }  
+  </script>
+</html>
