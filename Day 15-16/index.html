@@ -12,9 +12,12 @@
       href="./images/favicon-32x32.png"
     />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&family=Cabin:wght@500&family=Cantora+One&family=Festive&family=Gloria+Hallelujah&family=Great+Vibes&family=Indie+Flower&family=Manrope:wght@600;800&family=Neonderthaw&family=Overpass:wght@300&family=Red+Hat+Display:wght@900&family=Roboto+Condensed&family=Sansita+Swashed:wght@900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&family=Cabin:wght@500&family=Cantora+One&family=Festive&family=Gloria+Hallelujah&family=Great+Vibes&family=Indie+Flower&family=Manrope:wght@600;800&family=Neonderthaw&family=Overpass:wght@300&family=Red+Hat+Display:wght@500&family=Roboto+Condensed&family=Sansita+Swashed:wght@900&display=swap"
+      rel="stylesheet"
+    />
 
     <title>Frontend Mentor | Order summary card</title>
 
@@ -50,6 +53,8 @@
         justify-content: center;
         align-items: center;
         font-family: "Red Hat Display";
+        font-size: 16px;
+        /* padding: 1em */
       }
 
       .modal {
@@ -60,29 +65,42 @@
         box-shadow: 0 1em 3em rgba(85, 85, 85, 0.295);
       }
 
-      .dance-svg-wrapper svg {
+      .dance-svg-wrapper {
+        position: relative;
         width: 100%;
+        height: fit-content;
+        overflow: hidden;
+      }
+      .dance-svg-wrapper svg {
+        max-width: 100%;
       }
 
       div p.title {
         color: var(--Dark-blue);
       }
       #info {
-        padding: 2em;
+        margin-top: -3em;
+        padding: 1em;
         text-align: center;
       }
       .info p {
         color: var(--Desaturated-blue);
-        font-weight: 500;
+        font-size: 0.8em;
+        line-height: 1.5em;
+      }
+      .text,
+      .btns {
+        width: 90%;
+        margin: 0 auto;
       }
       .text p.title {
         margin-bottom: 0.5em;
-        font-weight: bolder;
-        font-size: 1.6em;
+        font-weight: 900;
+        font-size: 1.5em;
       }
 
       #plan {
-        margin: 1em auto;
+        margin: 0.6em auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -92,22 +110,26 @@
       }
       #plan a {
         color: var(--Bright-blue);
+        font-weight: 700;
+        font-size: 0.8em;
       }
       #plan a:hover {
         text-decoration: none;
         color: var(--Pale-purple);
       }
       #plan p.title {
-        font-weight: bolder;
+        font-weight: 700;
       }
       #music-svg {
-        flex-basis: 50%;
+        flex-basis: 60%;
         display: flex;
         justify-content: space-between;
         align-items: center;
       }
       .btn {
-        margin-bottom: 2em;
+        font-weight: 700;
+        font-size: 0.8em;
+        margin-bottom: 1em;
         background-color: var(--Bright-blue);
         color: var(--Very-pale-blue);
         padding: 1em 3em;
@@ -117,17 +139,23 @@
       .btn:hover {
         background-color: var(--Pale-purple);
       }
+      .cancel {
+        font-weight: 700;
+      }
       .cancel:hover {
         color: var(--Dark-blue);
         cursor: pointer;
       }
 
-      @media (min-width: 500px) {
+      @media (min-width: 450px) {
         body {
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='437'%3E%3Cpath fill='%23D6E1FF' fill-rule='evenodd' d='M0 349.974c218.558 116.035 460.05 116.035 724.475 0s502.933-116.035 715.525 0V0H0v349.974z'/%3E%3C/svg%3E");
         }
         .modal {
-          max-width: 400px;
+          max-width: 300px;
+        }
+        #info {
+          margin-top: -5em;
         }
       }
 
@@ -146,6 +174,9 @@
       <div class="dance-svg-wrapper">
         <!-- music svg -->
         <svg
+          id="hero"
+          preserveAspectRatio="xMinYMin meet"
+          viewBox="0 0 450 250"
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           width="450"
@@ -309,7 +340,7 @@
             any device anywhere you like!
           </p>
         </div>
-        <div>
+        <div class="btns">
           <!-- buttons -->
           <div id="plan">
             <div id="music-svg">
