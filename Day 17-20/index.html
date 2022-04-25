@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+
+    <title>Frontend Mentor | Advice generator app</title>
+
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+      @import url(https://fonts.google.com/specimen/Manrope);
+      :root {
+        /* Primary colors */
+        --Light-Cyan: hsl(193, 38%, 86%);
+        --Neon-Green: hsl(150, 100%, 66%);
+        --Light-Neon-Green: hsl(150, 100%, 75%);
+        /* Neutral colors */
+        --Grayish-Blue: hsl(217, 19%, 38%);
+        --Dark-Grayish-Blue: hsl(217, 19%, 24%);
+        --Dark-Blue: hsl(218, 23%, 16%);
+        /* font */
+        --Font-size: 28px;
+        --Family: "Manrope", sans-serif;
+      }
+
+      .dark-mode {
+        /* Primary colors */
+        --Light-Cyan: hsl(193, 38%, 36%);
+        --Neon-Green: hsl(150, 100%, 16%);
+        --Light-Neon-Green: hsl(150, 100%, 25%);
+        /* Neutral colors */
+        --Grayish-Blue: hsl(217, 19%, 88%);
+        --Dark-Grayish-Blue: hsl(217, 19%, 74%);
+        --Dark-Blue: hsl(218, 23%, 66%);
+      }
+
+      * {
+        padding: 0;
+        margin: 0;
+        transition: 0.3s ease-in-out;
+      }
+
+      body {
+        background-color: var(--Dark-Blue);
+        width: 100vw;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: var(--Font-size);
+        font-family: var(--Family);
+        text-align: center;
+        color: var(--Light-Cyan);
+      }
+      .modal {
+        background-color: var(--Dark-Grayish-Blue);
+        width: 70%;
+        padding: 1em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        border-radius: 0.5em;
+      }
+
+      .header {
+        margin: 1em 0;
+        font-size: 0.5em;
+        color: var(--Neon-Green);
+        letter-spacing: 2px;
+        font-weight: 600;
+      }
+      .text {
+        margin: 1em 0 0;
+        font-size: 0.8em;
+      }
+      .divider {
+        margin: 1em 0;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 0.5em;
+        background-image: url("data:image/svg+xml,%3Csvg width='295' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath fill='%234F5D74' d='M0 8h122v1H0zM173 8h122v1H173z'/%3E%3Cg transform='translate(138)' fill='%23CEE3E9'%3E%3Crect width='6' height='16' rx='3'/%3E%3Crect x='14' width='6' height='16' rx='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        background-repeat: no-repeat no-repeat;
+        background-position: center center;
+        background-size: cover;
+      }
+      .dice {
+        position: absolute;
+        bottom: -25px;
+        padding: 2px;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--Neon-Green);
+        border-radius: 50%;
+        transform: rotate(0deg);
+      }
+      .dice:hover {
+        box-shadow: 0 0 1em var(--Light-Neon-Green);
+      }
+      
+      #toggle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-right: 1em;
+        margin-top: 1em;
+        height: 1.15em;
+        width: 2.6em;
+        background-color: var(--Light-Neon-Green);
+        padding: 2px;
+        border-radius: 1em;
+        box-shadow: inset 0 0 0.5em var(--Dark-Blue);
+      }
+      #toggle div {
+        width: calc(1.3em - 4px);
+        height: calc(1.3em - 4px);
+        border-radius: 50%;
+        background-color: var(--Dark-Blue);
+        position: absolute;
+        left: 0.2em;
+        transition: 0.3s;
+      }
+
+      @media (min-width: 400px) {
+        .modal {
+          max-width: 400px;
+        }
+        .divider {
+          background-image: url("data:image/svg+xml,%3Csvg width='444' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath fill='%234F5D74' d='M0 8h196v1H0zM248 8h196v1H248z'/%3E%3Cg transform='translate(212)' fill='%23CEE3E9'%3E%3Crect width='6' height='16' rx='3'/%3E%3Crect x='14' width='6' height='16' rx='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .divider .mobile {
+          display: none;
+        }
+        .divider .desktop {
+          display: none;
+        }
+      }
+      .attribution {
+        margin-top: 3em;
+        font-size: 11px;
+        text-align: center;
+      }
+      .attribution a {
+        color: hsl(228, 45%, 44%);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="toggle">
+      <div></div>
+    </div>
+    <div class="modal">
+      <h6 id="header" class="header">ADVICE #117</h6>
+      <p id="quote" class="text">
+        "It is easy to sit up and take notice, what's difficult is getting up
+        and taking action."
+      </p>
+      <div class="divider">
+        <!-- divider -->
+      </div>
+      <div id="btn" class="dice">
+        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M20 0H4a4.005 4.005 0 0 0-4 4v16a4.005 4.005 0 0 0 4 4h16a4.005 4.005 0 0 0 4-4V4a4.005 4.005 0 0 0-4-4ZM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
+            fill="#202733"
+          />
+        </svg>
+      </div>
+    </div>
+    <div class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="#">De-marauder</a>.
+    </div>
+  </body>
+  <script>
+    var btn = document.getElementById("btn");
+    var e = 1;
+    const advice = async () => {
+      const res = await fetch("https://api.adviceslip.com/advice");
+
+      var response = await res.json();
+
+      const id = document.getElementById("header");
+      const quote = document.getElementById("quote");
+
+      id.innerText = `Advice #${response.slip.id}`;
+      quote.innerText = `${response.slip.advice}`;
+
+      e += 45;
+      btn.style.transform = `rotate(${e}deg)`;
+    };
+
+    btn.addEventListener("click", advice);
+    const toggle = document.getElementById("toggle");
+    let dark = true;
+
+    const toggleFn = () => {
+      toggle.children[0].style.left = dark ? `1.3em` : `0.2em`;
+      dark = !dark;
+      var path = btn.getElementsByTagName('path')[0]
+      if (!dark) {
+        document.body.style.setProperty("--Light-Cyan", "hsl(20, 78%, 56%)");
+        document.body.style.setProperty("--Neon-Green", "hsl(220, 100%, 76%)");
+        document.body.style.setProperty(
+          "--Light-Neon-Green",
+          "hsl(217, 100%, 54%)"
+        );
+        document.body.style.setProperty("--Grayish-Blue", "hsl(217, 19%, 88%)");
+        document.body.style.setProperty(
+          "--Dark-Grayish-Blue",
+          "hsl(207, 99%, 84%)"
+        );
+        document.body.style.setProperty("--Dark-Blue", "hsl(218, 23%, 96%)");
+      } else {
+        document.body.style.setProperty("--Light-Cyan", "hsl(193, 38%, 86%)");
+        document.body.style.setProperty("--Neon-Green", "hsl(150, 100%, 66%)");
+        document.body.style.setProperty(
+          "--Light-Neon-Green",
+          "hsl(150, 100%, 75%)"
+        );
+        document.body.style.setProperty("--Grayish-Blue", "hsl(217, 19%, 38%)");
+        document.body.style.setProperty(
+          "--Dark-Grayish-Blue",
+          "hsl(217, 19%, 24%)"
+        );
+        document.body.style.setProperty("--Dark-Blue", "hsl(218, 23%, 16%)");
+      }
+    };
+    console.log(btn.getElementsByTagName('path')[0].attributes.fill)
+    toggle.addEventListener("click", toggleFn);
+    setInterval(advice, 10000);
+  </script>
+</html>
